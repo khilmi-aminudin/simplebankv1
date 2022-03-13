@@ -5,7 +5,6 @@ package db
 
 import (
 	"context"
-	"database/sql"
 )
 
 const createTransfer = `-- name: CreateTransfer :one
@@ -19,8 +18,8 @@ INSERT INTO transfers (
 `
 
 type CreateTransferParams struct {
-	FromAccountID sql.NullInt64
-	ToAccountID   sql.NullInt64
+	FromAccountID int64
+	ToAccountID   int64
 	Amount        int64
 }
 
@@ -66,8 +65,8 @@ OFFSET $4
 `
 
 type ListTransfersParams struct {
-	FromAccountID sql.NullInt64
-	ToAccountID   sql.NullInt64
+	FromAccountID int64
+	ToAccountID   int64
 	Limit         int32
 	Offset        int32
 }

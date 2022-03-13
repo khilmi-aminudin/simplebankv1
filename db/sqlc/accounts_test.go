@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/khilmi-aminudin/simplebankv1/utils"
-	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 func createRandomAccount(t *testing.T) Account {
@@ -18,15 +18,15 @@ func createRandomAccount(t *testing.T) Account {
 	}
 
 	account, err := testQueries.CreateAccount(context.Background(), arg)
-	assert.NoError(t, err)
-	assert.NotEmpty(t, account)
+	require.NoError(t, err)
+	require.NotEmpty(t, account)
 
-	assert.NotZero(t, account.ID)
-	assert.Equal(t, arg.Owner, account.Owner)
-	assert.Equal(t, arg.Balance, account.Balance)
-	assert.Equal(t, arg.Currency, account.Currency)
+	require.NotZero(t, account.ID)
+	require.Equal(t, arg.Owner, account.Owner)
+	require.Equal(t, arg.Balance, account.Balance)
+	require.Equal(t, arg.Currency, account.Currency)
 
-	assert.NotZero(t, account.CreatedAt)
+	require.NotZero(t, account.CreatedAt)
 	return account
 }
 
@@ -37,15 +37,15 @@ func TestCreateAccounts(t *testing.T) {
 func TestGetAccount(t *testing.T) {
 	account := createRandomAccount(t)
 	account1, err := testQueries.GetAccount(context.Background(), account.ID)
-	assert.NoError(t, err)
-	assert.NotEmpty(t, account1)
+	require.NoError(t, err)
+	require.NotEmpty(t, account1)
 
-	assert.Equal(t, account.ID, account1.ID)
-	assert.Equal(t, account.Owner, account1.Owner)
-	assert.Equal(t, account.Balance, account1.Balance)
-	assert.Equal(t, account.Currency, account1.Currency)
+	require.Equal(t, account.ID, account1.ID)
+	require.Equal(t, account.Owner, account1.Owner)
+	require.Equal(t, account.Balance, account1.Balance)
+	require.Equal(t, account.Currency, account1.Currency)
 
-	assert.WithinDuration(t, account.CreatedAt, account1.CreatedAt, time.Second)
+	require.WithinDuration(t, account.CreatedAt, account1.CreatedAt, time.Second)
 }
 
 func TestListAccounts(t *testing.T) {
@@ -60,11 +60,11 @@ func TestListAccounts(t *testing.T) {
 	}
 
 	accounts, err := testQueries.ListAccounts(context.Background(), arg)
-	assert.NoError(t, err)
-	assert.Len(t, accounts, n)
+	require.NoError(t, err)
+	require.Len(t, accounts, n)
 
 	for _, account := range accounts {
-		assert.NotEmpty(t, account)
+		require.NotEmpty(t, account)
 	}
 }
 
@@ -77,24 +77,24 @@ func TestUpdateAccount(t *testing.T) {
 	}
 
 	account1, err := testQueries.UpdateAccount(context.Background(), arg)
-	assert.NoError(t, err)
-	assert.NotEmpty(t, account1)
+	require.NoError(t, err)
+	require.NotEmpty(t, account1)
 
-	assert.Equal(t, arg.ID, account1.ID)
-	assert.Equal(t, account.Owner, account1.Owner)
-	assert.Equal(t, arg.Balance, account1.Balance)
-	assert.Equal(t, account.Currency, account1.Currency)
+	require.Equal(t, arg.ID, account1.ID)
+	require.Equal(t, account.Owner, account1.Owner)
+	require.Equal(t, arg.Balance, account1.Balance)
+	require.Equal(t, account.Currency, account1.Currency)
 }
 
 func TestDeleteAccount(t *testing.T) {
 	account := createRandomAccount(t)
 
 	err := testQueries.DeleteAccount(context.Background(), account.ID)
-	assert.NoError(t, err)
+	require.NoError(t, err)
 
 	account1, err := testQueries.GetAccount(context.Background(), account.ID)
-	assert.Error(t, err)
-	assert.EqualError(t, err, sql.ErrNoRows.Error())
-	assert.Empty(t, account1)
+	require.Error(t, err)
+	require.EqualError(t, err, sql.ErrNoRows.Error())
+	require.Empty(t, account1)
 
 }

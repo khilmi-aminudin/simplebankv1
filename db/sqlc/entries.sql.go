@@ -5,7 +5,6 @@ package db
 
 import (
 	"context"
-	"database/sql"
 )
 
 const createEntry = `-- name: CreateEntry :one
@@ -18,7 +17,7 @@ INSERT INTO entries (
 `
 
 type CreateEntryParams struct {
-	AccountID sql.NullInt64
+	AccountID int64
 	Amount    int64
 }
 
@@ -60,7 +59,7 @@ OFFSET $3
 `
 
 type ListEntriesParams struct {
-	AccountID sql.NullInt64
+	AccountID int64
 	Limit     int32
 	Offset    int32
 }

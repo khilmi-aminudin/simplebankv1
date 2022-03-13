@@ -4,7 +4,6 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
-	"reflect"
 )
 
 type Store struct {
@@ -56,50 +55,50 @@ func (store *Store) TransferTx(ctx context.Context, arg TransferTxParams) (Trans
 	var result TransferTxResult
 	err := store.execTx(ctx, func(q *Queries) error {
 		var err error
-		result.Transfer, err = q.CreateTransfer(ctx, CreateTransferParams{
-			FromAccountID: sql.NullInt64{
-				Int64: arg.FromAccountID,
-				Valid: isNil(arg.FromAccountID),
-			},
-			ToAccountID: sql.NullInt64{
-				Int64: arg.ToAccountID,
-				Valid: isNil(arg.ToAccountID),
-			},
-			Amount: arg.Amount,
-		})
+
+		result.Transfer, err = q.CreateTransfer(ctx, CreateTransferParams(arg))
 		if err != nil {
 			return err
 		}
 
 		result.FromEntry, err = q.CreateEntry(ctx, CreateEntryParams{
-			AccountID: sql.NullInt64{
-				Int64: arg.FromAccountID,
-				Valid: isNil(arg.FromAccountID),
-			},
-			Amount: -arg.Amount,
+			AccountID: arg.FromAccountID,
+			Amount:    -arg.Amount,
 		})
 		if err != nil {
 			return err
 		}
 
 		result.ToEntry, err = q.CreateEntry(ctx, CreateEntryParams{
-			AccountID: sql.NullInt64{
-				Int64: arg.ToAccountID,
-				Valid: isNil(arg.ToAccountID),
-			},
-			Amount: arg.Amount,
+			AccountID: arg.ToAccountID,
+			Amount:    arg.Amount,
 		})
 		if err != nil {
 			return err
 		}
 
 		// TODO: update account's balance
+		result.FromAccount, err = q.AddAccountBalance(ctx, AddAccountBalanceParams{
+			ID:     arg.FromAccountID,
+			Amount: -arg.Amount,
+		})
+		if err != nil {
+			return err
+		}
+
+		result.ToAccount, err = q.AddAccountBalance(ctx, AddAccountBalanceParams{
+			ID:     arg.ToAccountID,
+			Amount: arg.Amount,
+		})
+		if err != nil {
+			return err
+		}
 
 		return nil
 	})
 	return result, err
 }
 
-func isNil(v interface{}) bool {
-	return v == nil || reflect.ValueOf(v).IsValid()
-}
+// func isNil(v interface{}) bool {
+// 	return v == nil || reflect.ValueOf(v).IsValid()
+// }
