@@ -1,5 +1,5 @@
 postgresql :
-	docker run --name postgres-simplebank -p 5432:5432 -e POSTGRES_USER=root POSTGRES_PASSWORD=secret -d postgres
+	docker run --name postgres-simplebank -p 5432:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=secret -d postgres
 
 execdb :
 	docker exec -it postgres-simplebank psql simplebank
