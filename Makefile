@@ -37,4 +37,4 @@ runserver :
 mock :
 	mockgen -package mockdb -destination db/mock/store.go github.com/khilmi-aminudin/simplebankv1/db/sqlc Store
 
-.PHONY : postgresql execdb createdb initmigrate migrateup migratedown sqlc test runserver mock
+.PHONY : postgresql execdb createdb initmigrate migrateup migratedown migrateup1 migratedown1 sqlc test runserver mock
