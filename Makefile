@@ -19,6 +19,12 @@ migrateup :
 migratedown :
 	migrate -path db/migration -database "postgresql://root:secret@localhost:5432/simplebank?sslmode=disable" -verbose down
 
+migrateup1 :
+	migrate -path db/migration -database "postgresql://root:secret@localhost:5432/simplebank?sslmode=disable" -verbose up 1
+
+migratedown1 :
+	migrate -path db/migration -database "postgresql://root:secret@localhost:5432/simplebank?sslmode=disable" -verbose down 1
+
 sqlc :
 	sqlc generate
 
