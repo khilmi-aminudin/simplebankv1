@@ -1,5 +1,6 @@
 package utils
 
+// List of Constant Currency
 const (
 	RUB = "RUB"
 	USD = "USD"
@@ -7,6 +8,7 @@ const (
 	EUR = "EUR"
 )
 
+// Registry For Allowed Currency
 func IsSupportedCurrency(currency string) bool {
 	switch currency {
 	case RUB, USD, CAD, EUR:

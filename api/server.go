@@ -16,6 +16,7 @@ func NewServer(store db.Store) *Server {
 	router := gin.Default()
 	server := &Server{store: store}
 
+	// Register The Currency Validation on binding Tag
 	if v, ok := binding.Validator.Engine().(*validator.Validate); ok {
 		v.RegisterValidation("currency", validCurrency)
 	}
