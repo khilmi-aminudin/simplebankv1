@@ -17,7 +17,7 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func TestGetAccount(t *testing.T) {
+func TestGetAccountAPI(t *testing.T) {
 	account := randomAccount()
 
 	testCase := []struct {

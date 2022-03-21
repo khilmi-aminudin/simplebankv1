@@ -3,6 +3,7 @@ module github.com/khilmi-aminudin/simplebankv1
 go 1.18
 
 require (
+	github.com/bxcodec/faker/v3 v3.8.0
 	github.com/gin-gonic/gin v1.7.7
 	github.com/go-playground/validator/v10 v10.10.1
 	github.com/golang/mock v1.6.0
