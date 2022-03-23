@@ -109,7 +109,7 @@ func TestGetUserAPI(t *testing.T) {
 
 			tc.buildStubs(store)
 
-			server := NewServer(store)
+			server := newTestServer(t, store)
 			recorder := httptest.NewRecorder()
 
 			url := fmt.Sprintf("/users/%s", user.Username)
@@ -166,7 +166,7 @@ func TestCreateUserAPI(t *testing.T) {
 
 		tc.buildStubs(store)
 
-		server := NewServer(store)
+		server := newTestServer(t, store)
 		recorder := httptest.NewRecorder()
 		data, err := json.Marshal(tc.body)
 		require.NoError(t, err)

@@ -28,8 +28,10 @@ func main() {
 	dbConnection.SetConnMaxLifetime(time.Hour * 1)
 
 	store := db.NewStore(dbConnection)
-	server := api.NewServer(store)
-
+	server, err := api.NewServer(config, store)
+	if err != nil {
+		log.Fatalf("cannot create server, err : %v", err)
+	}
 	err = server.Start(config.ServerAddress)
 	if err != nil {
 		log.Fatalf("cannot start server, err : %v", err)
