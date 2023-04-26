@@ -1,0 +1,10 @@
+1. Copy File dari container
+docker cp postgres-simplebank:/simplebank_schema.sql .
+
+2. Backup Schema Postgres
+- Extact both schema and data from postgres database:
+    pg_dump -U postgres postgres > dump.sql
+- Extact schema only from postgres database:
+    pg_dump -U postgres -s postgres > dump.sql
+- Extact data only from postgres database:
+    pg_dump -U postgres -a postgres > dump.sql
